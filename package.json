@@ -23,8 +23,10 @@
   },
   "homepage": "https://github.com/DaJoker29/hts",
   "dependencies": {
+    "body-parser": "^1.6.1",
     "cors": "^2.4.1",
     "express": "^4.8.1",
-    "mongoose": "^3.8.14"
+    "mongoose": "^3.8.14",
+    "morgan": "^1.2.2"
   }
 }
