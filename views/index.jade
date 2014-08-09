@@ -1,10 +1,10 @@
-doctype html
-html(lang="en" ng-app)
-    head
-        title LOOK HERE NIGGA!!!
-        script(src="libs/angular/angular.min.js")
-    body
-        label Name:
-        input(type="text" ng-model="yourName" placeholder="Enter a name")
-        hr
-        h1 Hello {{yourName}}!
+include header
+body(ng-app="hts" ng-controller="MainCtrl as app")
+    include nav
+    content
+        .container.js-masonry(data-masonry-options='{ "columnWidth": ".well", "itemSelector": ".well" }')
+            .well.col.md-4(ng-repeat="note in notes")
+                h1 {{note.title}}
+                p {{note.body}}
+                small {{note.date}}
+

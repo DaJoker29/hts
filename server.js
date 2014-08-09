@@ -1,21 +1,12 @@
 // load modules
 var express = require('express');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 var cors = require('cors');
 var morgan = require('morgan');
 var config = require('./config');
 
-// connect to db
-mongoose.connect(config.mongoURL);
-
-var noteSchema = {
-    title: String,
-    body: String,
-    createdOn: { type: Date, default: Date.now },
-}
-
-var Note = mongoose.model('Note', noteSchema);
+// routes
+var routes = require('./app/routes');
 
 var app = express();
 app.use(cors());
@@ -24,8 +15,16 @@ app.use(express.static(__dirname + '/public'))
 app.use(morgan('dev'));
 app.set('view engine', 'jade');
 
-// routes
-require('./app/routes')(app);
+
+// endpoints
+app.get('/', routes.home);
+app.get('/notes', routes.getNotes);
+app.get('/note', routes.getLastNote);
+app.get('/note/:id', routes.getNote);
+app.post('/note', routes.createNote);
+app.put('/note/:id', routes.updateNote);
+app.delete('/note/:id', routes.deleteNote);
+
 
 // start server
 app.listen(config.port);
