@@ -5,14 +5,17 @@ var config = require('../config');
 // connect to db
 mongoose.connect(config.mongoURL);
 
+// schema
 var noteSchema = {
     title: String,
     body: String,
     createdOn: { type: Date, default: Date.now },
 }
 
+// model
 var Note = mongoose.model('Note', noteSchema);
 
+// exported routes
 exports.home = function(req,res) {
     res.render('index');
 }
@@ -39,7 +42,7 @@ exports.getNote = function(req,res) {
 }
 
 exports.createNote = function(req,res) {
-    Note.findByIdAndUpdate({_id: req.params.id}, req.body, function(err,doc) {
+    Note.create(req.body, function(err,doc) {
 		if(err) res.send(err.message);
 		res.send(doc);
     });

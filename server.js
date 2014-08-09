@@ -8,13 +8,13 @@ var config = require('./config');
 // routes
 var routes = require('./app/routes');
 
+// configuration
 var app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'))
 app.use(morgan('dev'));
 app.set('view engine', 'jade');
-
 
 // endpoints
 app.get('/', routes.home);
@@ -24,6 +24,7 @@ app.get('/note/:id', routes.getNote);
 app.post('/note', routes.createNote);
 app.put('/note/:id', routes.updateNote);
 app.delete('/note/:id', routes.deleteNote);
+app.delete('/notes', routes.deleteNotes);
 
 
 // start server

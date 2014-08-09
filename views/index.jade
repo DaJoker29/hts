@@ -1,10 +1,14 @@
 include header
 body(ng-app="hts" ng-controller="MainCtrl as app")
     include nav
-    content
-        .container.js-masonry(data-masonry-options='{ "columnWidth": ".well", "itemSelector": ".well" }')
-            .well.col.md-4(ng-repeat="note in notes")
-                h1 {{note.title}}
-                p {{note.body}}
-                small {{note.date}}
+    .container.js-masonry(data-masonry-options='{ "columnWidth": ".col-md-4", "itemSelector": ".col-md-4" }')
+        include buttons
+        include form
+        .alert.alert-danger(ng-show="error") There has been an error
+        .col-md-4(ng-repeat="note in notes" ng-init="init()" style="border-left: 1px #ccc dotted;border-bottom: 1px #999 dotted;margin: 6px;")
+            a(ng-click="del(note._id)"): span.glyphicon.glyphicon-remove.pull-right
+            span.glyphicon.glyphicon-cog.pull-right
+            h1(ng-show="note.title") {{note.title}}
+            p(ng-show="note.body") {{note.body}}
+            small.pull-right(ng-show="note.createdOn")  {{note.createdOn | date : 'short'}}
 
