@@ -10,7 +10,7 @@ body(ng-app="hts" ng-controller="MainCtrl as app")
             .btn-group.pull-right
                 a.text-info(ng-click="updateNew(note);"): span.glyphicon.glyphicon-pencil &nbsp;
                 a.text-danger(ng-click="del(note._id)"): span.glyphicon.glyphicon-remove
-            h1(ng-show="note.title") {{note.title}}
-            p(ng-show="note.body") {{note.body}}
-            small.pull-right(ng-show="note.createdOn")  {{note.createdOn | date : 'short'}}
+            h1(ng-show="note.title" ng-bind="note.title")
+            p(ng-show="note.body" ng-bind="note.body")
+            small.pull-right(ng-show="note.date" ng-bind="note.date | date: 'short'")
 

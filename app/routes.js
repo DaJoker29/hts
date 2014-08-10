@@ -1,19 +1,5 @@
-// modules
-var mongoose = require('mongoose');
-var config = require('../config');
-
-// connect to db
-mongoose.connect(config.mongoURL);
-
-// schema
-var noteSchema = {
-    title: String,
-    body: String,
-    createdOn: { type: Date, default: Date.now },
-}
-
-// model
-var Note = mongoose.model('Note', noteSchema);
+//Load Note object (Note accesses Database)
+var Note = require('./mongo').Note;
 
 // exported routes
 exports.home = function(req,res) {
