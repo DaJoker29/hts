@@ -1,76 +1,35 @@
+// load modules
 var express = require('express');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 var cors = require('cors');
 var morgan = require('morgan');
+var config = require('./config');
 
-mongoose.connect('mongodb://localhost/hts');
+// routes
+var routes = require('./app/routes');
 
-var noteSchema = {
-    title: String,
-    body: String,
-    createdOn: { type: Date, default: Date.now },
-}
-
-var Note = mongoose.model('Note', noteSchema);
-
+// configuration
 var app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public'))
 app.use(morgan('dev'));
+app.set('view engine', 'jade');
 
-// Return all notes
-app.get('/notes', function(req,res) {
-    Note.find(function(err, doc) {
-        res.send(doc);
-    });
-});
-
-// Return the latest note
-app.get('/note', function(req, res) {
-    Note.find().sort( { 'createdOn': -1}).limit(1).exec( 
-        function(err, doc) {
-            res.send(doc);
-        }
-    )
-});
-
-// Return a specific note
-app.get('/note/:id', function(req,res) {
-    Note.find({_id: req.params.id }, function(err,doc) {
-        res.send(doc);
-    });
-});
+// endpoints
+app.get('/', routes.home);
+app.get('/notes', routes.getNotes);
+app.get('/note', routes.getLastNote);
+app.get('/note/:id', routes.getNote);
+app.post('/note', routes.createNote);
+app.put('/note/:id', routes.updateNote);
+app.delete('/note/:id', routes.deleteNote);
+app.delete('/notes', routes.deleteNotes);
 
 
-// Create a note
-app.post('/note', function (req, res) {
-    Note.create(req.body, function(err, doc) {
-        res.send(doc);
-    });
-});
+// start server
+app.listen(config.port);
+console.log('Running on port ' + config.port);
 
-// Update a note
-app.put('/note/:id', function(req,res) {
-    Note.findByIdAndUpdate({_id: req.params.id}, req.body, function(err,doc) {
-        res.send(doc);
-    });
-});
-
-
-// Delete a note
-app.delete('/note/:id', function(req,res) {
-    Note.remove({_id: req.params.id}, function(err,doc) {
-        res.send("Note removed");
-    });
-});
-
-// Delete all the notes
-app.delete('/notes', function(req,res) {
-    Note.remove({}, function(err,doc) {
-        res.send("Notes Cleared");
-    });
-});
-
-
-app.listen(3000);
+//expose app
+exports = module.exports = app;
