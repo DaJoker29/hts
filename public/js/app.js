@@ -5,16 +5,26 @@ hts.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.error = null;
     $scope.cleared = null;
     $scope.clicked = false;
+    $scope.clicked2 = false;
     $scope.Note = {};
 
     $scope.toggleClick = function() {
         $scope.clicked = !$scope.clicked;
     }
 
+    $scope.toggleClick2 = function() {
+        $scope.clicked2 = !$scope.clicked2;
+    }
+
     $scope.submitNew = function() {
         $scope.toggleClick();
         $scope.create($scope.Note);
         $scope.Note = {};
+    }
+
+    $scope.updateNew = function(obj) {
+        $scope.toggleClick2();
+        $scope.updated = obj;
     }
 
     $scope.populate = function() {
@@ -61,7 +71,7 @@ hts.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
     }
 
     $scope.update = function(obj) {
-        var path = 'note/' + obj.id;
+        var path = 'note/' + obj._id;
         $http.put(path, obj)
             .success(function(data,status,headers,config) {
                 $scope.populate();

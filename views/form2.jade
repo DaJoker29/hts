@@ -1,0 +1,10 @@
+form(role="form" ng-show="clicked2").pull-left
+    .form-group
+        label Update Title
+        input.form-control(type="text" placeholder="Enter a new title." ng-model="updated.title")
+    .form-group
+        label Update Note
+        textarea.form-control(rows="3" placeholder="Type your note here." ng-model="updated.body")
+    .btn-toolbar
+        button.btn.btn-danger(type="button" ng-click="toggleClick2()") Cancel
+        button.btn.btn-success(type="button" ng-click="update(updated);updated={}; toggleClick2()") Submit
