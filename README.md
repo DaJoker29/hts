@@ -8,4 +8,4 @@ database which stores all the Notes the user takes
 API
 ========
 
-(Coming soon)
+Can be found in at the [wiki](https://github.com/DaJoker29/hts/wiki)
