@@ -5,7 +5,7 @@ var cors = require('cors');
 var morgan = require('morgan');
 var config = require('./config');
 
-// routes
+// load routes
 var routes = require('./app/routes');
 
 // configuration
@@ -16,15 +16,18 @@ app.use(express.static(__dirname + '/public'))
 app.use(morgan('dev'));
 app.set('view engine', 'jade');
 
-// endpoints
+// deploy routes
 app.get('/', routes.home);
-app.get('/notes', routes.getNotes);
-app.get('/note', routes.getLastNote);
-app.get('/note/:id', routes.getNote);
-app.post('/note', routes.createNote);
-app.put('/note/:id', routes.updateNote);
-app.delete('/note/:id', routes.deleteNote);
-app.delete('/notes', routes.deleteNotes);
+app.route('/notes')
+    .get(routes.getNotes)
+    .delete(routes.deleteNotes);
+app.route('/note')
+    .get(routes.getLastNote)
+    .post(routes.createNote);
+app.route('/note/:id')
+    .get(routes.getNote)
+    .put(routes.updateNote)
+    .delete(routes.deleteNote);
 
 
 // start server
