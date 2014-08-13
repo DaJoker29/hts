@@ -28,7 +28,7 @@ hts.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
     }
 
     $scope.populate = function() {
-        var response = $http.get('notes');
+        var response = $http.get('api/notes');
 
         response.success(function(data,status,headers,config) {
             $scope.notes = data
@@ -39,7 +39,7 @@ hts.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
     };
     
     $scope.clear = function() {
-        $http.delete('notes')
+        $http.delete('api/notes')
             .success(function(data,status,headers,config) {
                 $scope.cleared = true;
                 $scope.populate();
@@ -50,7 +50,7 @@ hts.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
     }
 
     $scope.del = function(id) {
-        var path = 'note/' + id;
+        var path = 'api/note/' + id;
         $http.delete(path)
             .success(function(data,status,headers,config) {
                 $scope.populate();
@@ -61,7 +61,7 @@ hts.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
     }
 
     $scope.create = function(obj) {
-        $http.post('note', obj)
+        $http.post('api/note', obj)
             .success(function(data,status,headers,config) {
                 $scope.populate();
             })
@@ -71,7 +71,7 @@ hts.controller('MainCtrl', ['$scope', '$http', function($scope, $http) {
     }
 
     $scope.update = function(obj) {
-        var path = 'note/' + obj._id;
+        var path = 'api/note/' + obj._id;
         $http.put(path, obj)
             .success(function(data,status,headers,config) {
                 $scope.populate();
