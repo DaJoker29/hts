@@ -28,6 +28,8 @@ if('development' == app.get('env')) {
     app.use(morgan('dev'));
 }
 
+
+
 // deploy routes
 app.get('/', routes.home);
 app.route('/api/notes')
@@ -46,10 +48,6 @@ app.route('/api/note/:id')
 db.connect;
 
 // setup database listeners
-db.conn.on('open', function() {
-    console.log('Connection established to mongodb %s on %s', db.conn.name, db.conn.host);
-});
-
 db.conn.on('error', function(err) {
     console.error('Mongodb connection error: %s\nExiting', err.message);
     process.exit(1);
@@ -57,7 +55,6 @@ db.conn.on('error', function(err) {
 
 // start server
 app.listen(app.get('port'));
-console.log('Running on port ' + app.get('port'));
 
 //expose app
 exports = module.exports = app;
