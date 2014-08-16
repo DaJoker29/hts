@@ -1,37 +1,30 @@
-var config = require('../config');
-var mongoose = require('mongoose');
-var request = require('supertest')('http://localhost:' + config.port);
-var app = require('express')();
+var db = require('../config/database');
+var app = require('../server');
+var request = require('supertest')('http://localhost:' + app.get('port'));
 
 describe('API', function() {
     describe('MongoDB', function() {
         //Connect to Database
 
-        before(function(done) {
-            mongoose.connect(config.mongoURL, function(err) {
-                done()
-            });
-        });
-
         it('should be running', function() {
-            mongoose.connection.readyState.should.eql(1)
+            db.conn.readyState.should.be.within(1,2);
         });
     });
 
     describe('Endpoints', function() {
-        describe('/notes', function() {
+        describe('/api/notes', function() {
             it('respond with JSON', function(done) {
                 request
-                    .get('/notes')
+                    .get('/api/notes')
                     .set('Accept', 'application/json')
                     .expect('Content-Type', /json/)
                     .expect(200, done);
             });
         });
-        describe('/note', function() {
+        describe('/api/note', function() {
             it('should respond with Note', function(done) {
                 request
-                    .get('/note')
+                    .get('/api/note')
                     .set('Accept', 'application/json')
                     .expect('Content-Type', /json/)
                     .expect(function(res) {
@@ -41,7 +34,7 @@ describe('API', function() {
             });
             it('should create a Note when posted to it', function(done) {
                 request
-                    .post('/note')
+                    .post('/api/note')
                     .send({ "title": "Dummy Title", "body": "Dummy Data"})
                     .set('Accept', 'application/json')
                     .expect('Content-Type', /json/)
